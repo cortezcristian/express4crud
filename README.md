@@ -177,6 +177,24 @@ app.use('/users', users);
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
 ```
+We are generating a parent -> child relationship between the 2 files `app.js` -> `routes/main.js`. To gain access to parent file variables from the child file we need to add this change in  `app.js`:
+
+```javascript
+mongoose.connect('mongodb://localhost/crudtest');
+
++var app = exports.app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+```
+So the relationship it's like this:
+
+| Parent File | Included File (child) |
+| ---- | ---- |
+| app.js | routes/main.js |
+| exports.app | module.parent.exports.app |
 
 Now we are going to create a new page to list our persons, in `routes/main.js`:
 ```javascript
