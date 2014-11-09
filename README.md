@@ -177,6 +177,24 @@ app.use('/users', users);
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
 ```
+We are generating a parent -> child relationship between the 2 files `app.js` -> `routes/main.js`. To gain access to parent file variables from the child file we need to add this change in  `app.js`:
+
+```javascript
+mongoose.connect('mongodb://localhost/crudtest');
+
++var app = exports.app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+```
+So the relationship it's like this:
+
+| Parent File | Included File (child) |
+| ---- | ---- |
+| app.js | routes/main.js |
+| exports.app | module.parent.exports.app |
 
 Now we are going to create a new page to list our persons, in `routes/main.js`:
 ```javascript
@@ -190,5 +208,19 @@ app.get('/list', function(req, res){
 Let's reset the web server and test the new route [http://localhost:3000/list](http://localhost:3000/list)
 
 ![List Route](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/route-list-test.png)
+
+Let's hookup the models now into our `routes/main.js`, see the changes:
+```javascript
+ var app = module.parent.exports.app;
++var Persons = require('../models/persons.js');
+ 
+ app.get('/list', function(req, res){
+-    res.end('It works!');
++    Persons.find({}, function(err, docs){
++        res.json(docs);
++    });
+```
+
+Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
 
 
