@@ -219,7 +219,10 @@ Let's hookup the models now into our `routes/main.js`, see the changes:
 +    Persons.find({}, function(err, docs){
 +        res.json(docs);
 +    });
+});
 ```
+
+Notice `Query#find([criteria], [callback])` is a built-in feature from [Mongoose API](http://mongoosejs.com/docs/api.html#query_Query-find).
 
 Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
 ![List JSON example](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-json.png)
