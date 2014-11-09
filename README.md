@@ -82,3 +82,77 @@ After that go ahead and modify `app.js`, add the following lines to set the data
  var app = express();
 
 ```
+
+We are going to create a folder to store our models:
+```bash
+$ mkdir models
+```
+
+Our first model will look like this `models/persons.js`:
+```javascript
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var personSchema = new Schema({
+    name: String,
+    age: Number
+});
+
+var personModel = mongoose.model('Persons', personSchema);
+
+module.exports = personModel;
+
+```
+ As you can see it's a very simple model, we can create a test file to prove it works:
+ 
+ ```bash
+$ mkdir test
+```
+
+Just to create a simple test we can create a file called: `test/persons-tests.js` with this content:
+
+```javascript
+var Person = require('../models/persons');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/crudtest');
+
+var p = new Person({ name:"Cristian", age:27 });
+p.save(function(err, doc){
+    console.log(err, doc);    
+});
+
+```
+
+If we run it we should be able to see the following
+```bash
+$ node test/persons-tests.js 
+null { __v: 0,
+  name: 'Cristian',
+  age: 27,
+  _id: 545ed9517520ef9e153a877e }
+^C
+```
+
+To validate this we can inspect our Mongo Database directly by doing:
+
+```bash
+$ mongo
+MongoDB shell version: 2.4.11
+connecting to: test
+> show dbs;
+crudtest	0.203125GB
+test	0.203125GB
+local	0.078125GB
+> use crudtest
+switched to db crudtest
+> show collections
+persons
+system.indexes
+> db.persons.find()
+{ "name" : "Cristian", "age" : 27, "_id" : ObjectId("545ed9517520ef9e153a877e"), "__v" : 0 }
+> 
+
+```
+
+
