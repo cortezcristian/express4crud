@@ -151,8 +151,40 @@ persons
 system.indexes
 > db.persons.find()
 { "name" : "Cristian", "age" : 27, "_id" : ObjectId("545ed9517520ef9e153a877e"), "__v" : 0 }
-> 
+> ^C
+bye
 
 ```
+
+## Modifying Routes
+
+We are going to create a new file `routes/main.js` and we are going to include it in our `app.js` file. Right after the express config:
+
+```javascript
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+app.use('/users', users);
+
++require('./routes/main.js');
+/// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+```
+
+Now we are going to create a new page to list our persons, in `routes/main.js`:
+```javascript
+var app = module.parent.exports.app;
+
+app.get('/list', function(req, res){
+    res.end('It works!');
+});
+```
+
+Let's reset the web server and test the new route http://localhost:3000/list
 
 
