@@ -42,7 +42,7 @@ $ tree -L 1
 
 ```
 
-Start the server and browse http://localhost:3000/ to check it's working:
+Start the server and browse [http://localhost:3000/](http://localhost:3000/) to check it's working:
 ```bash
 $ npm start
 
@@ -53,6 +53,8 @@ GET / 200 254.744 ms - 305
 GET /css/style.css 200 4.750 ms - 111
 GET /favicon.ico 404 29.664 ms - 1173
 ```
+![Express 4](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/site-express4.png)
+
  You'll need to have mongoDB installed in order to continue with this tutorial. Please check that you have it up and running before continuing.
  
  ```bash
@@ -185,6 +187,8 @@ app.get('/list', function(req, res){
 });
 ```
 
-Let's reset the web server and test the new route http://localhost:3000/list
+Let's reset the web server and test the new route [http://localhost:3000/list](http://localhost:3000/list)
+
+![List Route](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/route-list-test.png)
 
 
