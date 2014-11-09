@@ -1,4 +1,4 @@
-Express4 CRUD demo
+Express 4.x CRUD
 ============
 
 Crud Example with Express 4
@@ -223,4 +223,6 @@ Let's hookup the models now into our `routes/main.js`, see the changes:
 
 Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
 ![List JSON example](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-json.png)
+
+Let's change all that a little bit to display a page with an HTMl table instead of a plain JSON response.
 
