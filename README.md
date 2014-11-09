@@ -209,4 +209,18 @@ Let's reset the web server and test the new route [http://localhost:3000/list](h
 
 ![List Route](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/route-list-test.png)
 
+Let's hookup the models now into our `routes/main.js`, see the changes:
+```javascript
+ var app = module.parent.exports.app;
++var Persons = require('../models/persons.js');
+ 
+ app.get('/list', function(req, res){
+-    res.end('It works!');
++    Persons.find({}, function(err, docs){
++        res.json(docs);
++    });
+```
+
+Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
+
 
