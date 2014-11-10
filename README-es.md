@@ -532,7 +532,6 @@ Nota que ahora nuestro registro dice 28 en vez de 27.
 
 ## Flash Messages
 
-Let's imagine that in a more complex scenario you need to implement error messages between the request. The case could be something like:
 Imaginemos un escenario mas complejo dónde tuviéramos que implementar mensajes de error entre consultas. El caso podria ser algo como:
 
 1. El usuario edita un registro (GET request /p/edit/:id)
