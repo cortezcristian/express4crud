@@ -528,5 +528,15 @@ If everything works fine you'll be redirected to `/list`:
 
 Notice our record says now 28 instead of 27.
 
+## Flash Messages
+
+Let's imagine that in a more complex scenario you need to implement error messages between the request. The case could be something like:
+
+1. The user edits the form (GET request /p/edit/:id)
+2. The user submits new data (POST request /p/edit/:id), and submits something that is not a Number into the age field.
+3. So instead of redirecting to `/list`. We run some backend validation and show an error message indicating the problem. (GET request /p/edit/:id)
+
+In order to resolve this problem we will need to 
+
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
