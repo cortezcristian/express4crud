@@ -249,8 +249,35 @@ If we restart the server again, we should be able to see:
 
 ![List View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view.png)
 
-Notice we are passing to the view and object with the ist of `persons`.
+Notice we are passing to the view and object with the ist of `persons`. Let's modify our `views/list.jade` file to display this data in table form:
 
+```jade
+extends layout
+
+block content
+  h1= title
+  p=JSON.stringify(persons)
+  p
+    a(href="/p/new") New
+  table
+    tr
+      th N
+      th Name
+      th Age
+      th Options
+    - persons.forEach(function(v,i){
+    tr
+      td=i
+      td=v.name
+      td #{v.age} years
+      td
+        a(href="/p/edit/"+v._id) Edit
+        | 
+        a(href="/p/delete/"+v._id) Delete
+    - });
+```
+
+![List View Table](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-table.png)
 
 
 
