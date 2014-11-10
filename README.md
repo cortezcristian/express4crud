@@ -279,6 +279,10 @@ block content
 
 ![List View Table](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-table.png)
 
+Notice we already put in place some links to redirect to create, edit and delete sections. Let's move forward with the person creation:
+
+
+
 
 
 
