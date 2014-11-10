@@ -1,7 +1,6 @@
 Express 4.x CRUD
 ============
-
-Crud Example with Express 4
+Step by step guide to create a CRUD with Express 4 and mongoose.
 
 ## Setup
 
@@ -227,5 +226,29 @@ Notice `Query#find([criteria], [callback])` is a built-in feature from [Mongoose
 Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
 ![List JSON example](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-json.png)
 
-Let's change all that a little bit to display a page with an HTMl table instead of a plain JSON response.
+Let's change all that a little bit to display a page with an HTMl table instead of a plain JSON response. First create a new template called `views/list.jade` based on an existing one.
+```bash
+$ cp views/index.jade views/list.jade
+```
+Let's like that view to our existing route:
+
+```javascript
+var app = module.parent.exports.app;
+var Persons = require('../models/persons.js');
+
+app.get('/list', function(req, res){
+    Persons.find({}, function(err, docs){
+-        res.json(docs);
++        res.render('list', { title: 'List', persons: docs});
+    });
+});
+```
+If we restart the server again, we should be able to see:
+![List View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view.png)
+
+Notice we are passing to the view and object with the ist of `persons`.
+
+
+
+
 
