@@ -328,5 +328,57 @@ It should look like this:
 
 ![New View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/new-view.png)
 
+At this point we only create the GET url for displaying the form, now we need to define the POST url to receive the parameters every time the user submits the form.
+
+Modify the ``:
+
+```javascript
+var app = module.parent.exports.app;
+var Persons = require('../models/persons.js');
+
+app.get('/list', function(req, res){
+    Persons.find({}, function(err, docs){
+        res.render('list', { title: 'List', persons: docs});
+    });
+});
+
+app.get('/p/new', function(req, res){
+    res.render('new', { title: 'New'});
+});
+
+ app.post('/p/new', function(req, res){
+-    res.render('new', { title: 'New'});
++    console.log(req.body);
++    var p = new Persons({ name: req.body.name, age: req.body.age });
++    p.save(function(err, doc){
++        if(!err){
++            res.redirect('/list');
++        } else {
++            res.end(err);    
++        }    
++    });
+ });
+```
 
 
+Go to [http://localhost:3000/p/new](http://localhost:3000/p/new) and submit a new person:
+
+![New Perrson Submit](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/new-view.png)
+
+```bash
+$ npm start
+
+> express4crud@0.0.1 start /var/www/express4crud
+> node ./bin/www
+
+GET /p/new 200 254.582 ms - 662
+GET /css/style.css 200 7.502 ms - 111
+{ name: 'John', age: '22' }
+POST /p/new 302 411.564 ms - 66
+GET /list 200 286.316 ms - 978
+GET /css/style.css 200 20.991 ms - 111
+```
+
+If everything works fine you'll be redirected to `/list`:
+
+![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
