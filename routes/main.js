@@ -12,5 +12,13 @@ app.get('/p/new', function(req, res){
 });
 
 app.post('/p/new', function(req, res){
-    res.render('new', { title: 'New'});
+    console.log(req.body);
+    var p = new Persons({ name: req.body.name, age: req.body.age });
+    p.save(function(err, doc){
+        if(!err){
+            res.redirect('/list');
+        } else {
+            res.end(err);    
+        }    
+    });
 });
