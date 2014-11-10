@@ -333,7 +333,7 @@ It should look like this:
 
 At this point we only create the GET url for displaying the form, now we need to define the POST url to receive the parameters every time the user submits the form.
 
-Modify the ``:
+Modify the `routes/main.js`:
 
 ```javascript
 var app = module.parent.exports.app;
@@ -386,7 +386,7 @@ If everything works fine you'll be redirected to `/list`:
 
 ![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
 
-## Delete a Record
+## Delete a record
 Notice that for deleting a record we caread a link that is passing the ObjectId of the document as parameter. Let's modify our routes file `routes/main.js` to add the remove url.
 
 ```javascript
@@ -442,6 +442,8 @@ GET /css/style.css 200 6.062 ms - 111
 If everything works fine you'll be redirected to `/list`:
 
 ![List View Deleted](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-deleted.png)
+
+## Edit a record
 
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
