@@ -22,3 +22,14 @@ app.post('/p/new', function(req, res){
         }    
     });
 });
+
+app.get('/p/delete/:id', function(req, res){
+    Persons.remove({ _id: req.params.id }, function(err, doc){
+        if(!err){
+            res.redirect('/list');
+        } else {
+            res.end(err);    
+        }    
+    });
+});
+
