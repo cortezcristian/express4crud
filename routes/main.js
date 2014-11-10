@@ -33,3 +33,12 @@ app.get('/p/delete/:id', function(req, res){
     });
 });
 
+app.get('/p/edit/:id', function(req, res){
+    Persons.findOne({ _id: req.params.id }, function(err, doc){
+        if(!err){
+            res.render('edit', { title: 'Edit', person: doc});
+        } else {
+            res.end(err);    
+        }    
+    });
+});
