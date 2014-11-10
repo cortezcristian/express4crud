@@ -228,11 +228,11 @@ Restart the server and go to [http://localhost:3000/list](http://localhost:3000/
 
 ## Creating a view
 
-Let's change all that a little bit to display a page with an HTMl table instead of a plain JSON response. First create a new template called `views/list.jade` based on an existing one.
+Let's change all that a little bit to display a page with an HTML table instead of a plain JSON response. First create a new template called `views/list.jade` based on an existing one.
 ```bash
 $ cp views/index.jade views/list.jade
 ```
-Let's like that view to our existing route:
+Let's link that view to our existing route:
 
 ```javascript
 var app = module.parent.exports.app;
@@ -249,7 +249,7 @@ If we restart the server again, we should be able to see:
 
 ![List View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view.png)
 
-Notice we are passing to the view and object with the ist of `persons`. Let's modify our `views/list.jade` file to display this data in table form:
+Notice that we are passing to the view an object with the list of `persons`. Let's modify our `views/list.jade` file to display this data in table form:
 
 ```jade
 extends layout
@@ -387,7 +387,7 @@ If everything works fine you'll be redirected to `/list`:
 ![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
 
 ## Delete a record
-Notice that for deleting a record we caread a link that is passing the ObjectId of the document as parameter. Let's modify our routes file `routes/main.js` to add the remove url.
+Remember that for deleting a record we previously created a link that is passing the ObjectId of the document as parameter in the url `/p/delete/:id`. Let's modify our routes file `routes/main.js` to add the remove url.
 
 ```javascript
 var app = module.parent.exports.app;
