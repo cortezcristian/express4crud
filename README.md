@@ -536,7 +536,45 @@ Let's imagine that in a more complex scenario you need to implement error messag
 2. The user submits new data (POST request /p/edit/:id), and submits something that is not a Number into the age field.
 3. So instead of redirecting to `/list`. We run some backend validation and show an error message indicating the problem. (GET request /p/edit/:id)
 
-In order to resolve this problem we will need to 
+In order to resolve this problem we will need to manage session data ([express-session](https://www.npmjs.org/package/express-session)) and be able to save and fetch thos messages ([connect-flash](https://www.npmjs.org/package/connect-flash)). Let's install those packages by doing:
+
+```bash
+npm install --save express-session connect-flash
+```
+
+After that we'll need to make some adjustments to our `app.js`.
+
+Let's declare our new dependecies at the very top:
+
+```javascript
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
++var session = require('express-session')
++var flash = require('connect-flash');
+
+var routes = require('./routes/index');
+
+```
+
+And then call them around line 26, right after cookie parser usage declaration:
+
+```javascript
+app.use(bodyParser.urlencoded({
+ }));
+ app.use(cookieParser());
+ app.use(express.static(path.join(__dirname, 'public')));
++app.use(session({secret: 'supersecret'}));
++app.use(flash());
+ 
+ app.use('/', routes);
+ app.use('/users', users);
+```
+
+To probe our flash message system is working we can do the following:
 
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
