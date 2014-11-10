@@ -387,4 +387,61 @@ If everything works fine you'll be redirected to `/list`:
 ![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
 
 ## Delete a Record
+Notice that for deleting a record we caread a link that is passing the ObjectId of the document as parameter. Let's modify our routes file `routes/main.js` to add the remove url.
 
+```javascript
+var app = module.parent.exports.app;
+var Persons = require('../models/persons.js');
+
+app.get('/list', function(req, res){
+    Persons.find({}, function(err, docs){
+        res.render('list', { title: 'List', persons: docs});
+    });
+});
+
+app.get('/p/new', function(req, res){
+    res.render('new', { title: 'New'});
+});
+
+app.post('/p/new', function(req, res){
+    console.log(req.body);
+    var p = new Persons({ name: req.body.name, age: req.body.age });
+    p.save(function(err, doc){
+        if(!err){
+            res.redirect('/list');
+        } else {
+            res.end(err);    
+        }    
+    });
+});
++
++app.get('/p/delete/:id', function(req, res){
++    Persons.remove({ _id: req.params.id }, function(err, doc){
++        if(!err){
++            res.redirect('/list');
++        } else {
++            res.end(err);    
++        }    
++    });
++});
+```
+If we go ahead and delete the previous record we created, the console output will look like this:
+
+```bash
+$ npm start
+
+> express4crud@0.0.1 start /var/www/express4crud
+> node ./bin/www
+
+GET /list 200 545.345 ms - 581
+GET /p/delete/5460d48969d6ee103e4f8c56 302 213.596 ms - 66
+GET /list 200 545.345 ms - 581
+GET /css/style.css 200 6.062 ms - 111
+```
+
+If everything works fine you'll be redirected to `/list`:
+
+![List View Deleted](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-deleted.png)
+
+## Final 
+If you want to see the complete demo, you can go ahead and clone this repo.
