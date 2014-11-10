@@ -282,7 +282,51 @@ block content
 Notice we already put in place some links to redirect to create, edit and delete sections. Let's move forward with the person creation:
 
 
+```bash
+$ cp views/index.jade views/new.jade
+```
 
+Let's add the route to link the new view. See `routes/main.js`:
+
+```javascript
+var app = module.parent.exports.app;
+var Persons = require('../models/persons.js');
+
+app.get('/list', function(req, res){
+    Persons.find({}, function(err, docs){
+        res.render('list', { title: 'List', persons: docs});
+    });
+});
++
++app.get('/p/new', function(req, res){
++    res.render('new', { title: 'New'});
++});
+
+```
+
+And finally change the view `views/new.jade`:
+```jade
+extends layout
+
+block content
+  h1= title
+  form(action='',method='post')
+    div
+      label(for='name') Name:
+      input(type='text', name='name', id='name', placeholder='Name here...')
+    div
+      label(for='age') Age:
+      input(type='text', name='age', id='age', placeholder='Age...')
+    div
+      input(type='submit', value='Save')
+  style.
+    form label { min-width: 80px; display: inline-block; }
+    form > div { padding: 5px; }
+```
+
+It should look like this:
+
+![New View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/new-view.png)
 
 
 
