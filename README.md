@@ -333,7 +333,7 @@ It should look like this:
 
 At this point we only create the GET url for displaying the form, now we need to define the POST url to receive the parameters every time the user submits the form.
 
-Modify the ``:
+Modify the `routes/main.js`:
 
 ```javascript
 var app = module.parent.exports.app;
@@ -386,7 +386,7 @@ If everything works fine you'll be redirected to `/list`:
 
 ![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
 
-## Delete a Record
+## Delete a record
 Notice that for deleting a record we caread a link that is passing the ObjectId of the document as parameter. Let's modify our routes file `routes/main.js` to add the remove url.
 
 ```javascript
@@ -442,6 +442,61 @@ GET /css/style.css 200 6.062 ms - 111
 If everything works fine you'll be redirected to `/list`:
 
 ![List View Deleted](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-deleted.png)
+
+Notice that in my example record John doesn't exist anymore.
+
+## Edit a record
+Editing a record will have a little bit more of complexity. Let's start by creating a new view for it.
+
+```bash
+$ cp views/new.jade views/edit.jade
+```
+
+And create a fresh route, to get the document by ObjectId in `./routes/main.js`:
+
+```javascript
+
+app.get('/p/edit/:id', function(req, res){
+    Persons.findOne({ _id: req.params.id }, function(err, doc){
+        if(!err){
+            res.render('edit', { title: 'Edit', person: doc});
+        } else {
+            res.end(err);    
+        }    
+    });
+});
+
+```
+
+And let's modify the view `views/edit.jade` to display the values:
+
+```jade
+extends layout
+
+block content
+  h1= title
+  p=JSON.stringify(person)
+  form(action='',method='post')
+    div
+      label(for='name') Name:
+      input(type='text', name='name', id='name', placeholder='Name here...', value=person.name)
+    div
+      label(for='age') Age:
+      input(type='text', name='age', id='age', placeholder='Age...', value=person.age)
+    div
+      input(type='submit', value='Save')
+  style.
+    form label { min-width: 80px; display: inline-block; }
+    form > div { padding: 5px; }
+
+```
+
+At this point the Edit page should look like this:
+
+![Edit View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/edit-view.png)
+
+We need to create the POST url to actually modify and persist person data.
+
 
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
