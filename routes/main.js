@@ -42,3 +42,21 @@ app.get('/p/edit/:id', function(req, res){
         }    
     });
 });
+
+app.post('/p/edit/:id', function(req, res){
+    Persons.findOne({ _id: req.params.id }, function(err, doc){
+        if(!err){
+            doc.name = req.body.name; 
+            doc.age = req.body.age;
+            doc.save(function(err, doc){
+                if(!err){
+                    res.redirect('/list');
+                } else {
+                    res.end(err);    
+                }    
+            }); 
+        } else {
+            res.end(err);    
+        }    
+    });
+});
