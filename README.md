@@ -363,7 +363,7 @@ app.get('/p/new', function(req, res){
 
 Go to [http://localhost:3000/p/new](http://localhost:3000/p/new) and submit a new person:
 
-![New Perrson Submit](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/new-view.png)
+![New Perrson Submit](https://github.com/cortezcristian/express4crud/blob/master/pics/save-first-record.png)
 
 ```bash
 $ npm start
