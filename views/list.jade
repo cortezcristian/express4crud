@@ -2,4 +2,22 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p=JSON.stringify(persons)
+  p
+    a(href="/p/new") New
+  table
+    tr
+      th N
+      th Name
+      th Age
+      th Options
+    - persons.forEach(function(v,i){
+    tr
+      td=i
+      td=v.name
+      td #{v.age} years
+      td
+        a(href="/p/edit/"+v._id) Edit
+        | 
+        a(href="/p/delete/"+v._id) Delete
+    - });
