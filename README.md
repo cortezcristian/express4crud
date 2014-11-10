@@ -536,7 +536,7 @@ Let's imagine that in a more complex scenario you need to implement error messag
 2. The user submits new data (POST request /p/edit/:id), and submits something that is not a Number into the age field.
 3. So instead of redirecting to `/list`. We run some backend validation and show an error message indicating the problem. (GET request /p/edit/:id)
 
-In order to resolve this problem we will need to manage session data ([express-session](https://www.npmjs.org/package/express-session)) and be able to save and fetch thos messages ([connect-flash](https://www.npmjs.org/package/connect-flash)). Let's install those packages by doing:
+In order to resolve this problem we will need to manage session data ([express-session](https://www.npmjs.org/package/express-session)) and be able to save and fetch those messages ([connect-flash](https://www.npmjs.org/package/connect-flash)). Let's install those packages by doing:
 
 ```bash
 npm install --save express-session connect-flash

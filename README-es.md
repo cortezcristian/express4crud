@@ -529,5 +529,87 @@ Si todo funciona bien deberias ser redirigido a `/list`:
 
 Nota que ahora nuestro registro dice 28 en vez de 27.
 
+
+## Flash Messages
+
+Let's imagine that in a more complex scenario you need to implement error messages between the request. The case could be something like:
+Imaginemos un escenario mas complejo dónde tuviéramos que implementar mensajes de error entre consultas. El caso podria ser algo como:
+
+1. El usuario edita un registro (GET request /p/edit/:id)
+2. Submite nuevos datos (POST request /p/edit/:id), pero tambien incluye un valor que no es numérico en el campo edad (`age`).
+3. Entonces en vez de redirigirlo a `/list`. Deberiamos correr alguna validación y mostrar un mensaje de error indicando sobre el inconveniente. (GET request /p/edit/:id)
+
+Para resolver el problema necesitamos echar mano a los datos de sesión ([express-session](https://www.npmjs.org/package/express-session)) y a un paquete que nos permite enviar mensajes entre requests de distinto tipo ([connect-flash](https://www.npmjs.org/package/connect-flash)). Instalemos los paquetes con el siguiente ocmando:
+
+```bash
+npm install --save express-session connect-flash
+```
+
+Luego de esto tenemos que hacer algunos ajustes en nuestro `app.js`.
+
+Declaremos nuestras nuevas dependencias al principio del archivo:
+
+```javascript
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
++var session = require('express-session')
++var flash = require('connect-flash');
+
+var routes = require('./routes/index');
+
+```
+
+Y luego usamos las depencias cerca de la linea 26, justo después de la declaración de uso del cookie parser:
+
+```javascript
+app.use(bodyParser.urlencoded({
+ }));
+ app.use(cookieParser());
+ app.use(express.static(path.join(__dirname, 'public')));
++app.use(session({secret: 'supersecret', saveUninitialized: true, resave: true}));
++app.use(flash());
+ 
+ app.use('/', routes);
+ app.use('/users', users);
+```
+Para probar que nuestro flash message esta funcionando podemos hacer lo siguiente. Una vez que el usuario visite `/p/new` y sea redirigido a `/list` vamos a mostrar un mensaje. En nuestro archivo `./routes/main.js` agregamos lo siguiente:
+
+```javascript
+ app.get('/list', function(req, res){
++    var msg = req.flash('message'); // Read the flash message
+     Persons.find({}, function(err, docs){
+-        res.render('list', { title: 'List', persons: docs});
++        res.render('list', { title: 'List', persons: docs, flashmsg: msg}); // Pass Flash Message to the view
+     });
+ });
+ 
+ app.get('/p/new', function(req, res){
++    req.flash('message', 'You visited /new'); // Save the flash message
+     res.render('new', { title: 'New'});
+ });
+```
+También tenemos que hacer algunos ajustes para mostrar el mensaje flash en la vista `views/list.jade`:
+
+```jade
+extends layout
+ 
+ block content
+   h1= title
+-  //p=JSON.stringify(persons)
++  p=JSON.stringify(flashmsg)
+   p
+     a(href="/p/new") New
+   table
+```
+
+Ahora si creamos una persona nueva, cuando seamos redirigidos a `/list` podremos ver el mensaje.
+
+![Flash Message](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/flash-message.png)
+
+
 ## Final 
-Si quiere acceder al fuente completo de esta demo, podes clonarte el repo.
+Para acceder al fuente completo de esta demo, podes clonarte el repo.
