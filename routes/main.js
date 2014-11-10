@@ -2,12 +2,14 @@ var app = module.parent.exports.app;
 var Persons = require('../models/persons.js');
 
 app.get('/list', function(req, res){
+    var msg = req.flash('message');
     Persons.find({}, function(err, docs){
-        res.render('list', { title: 'List', persons: docs});
+        res.render('list', { title: 'List', persons: docs, flashmsg: msg});
     });
 });
 
 app.get('/p/new', function(req, res){
+    req.flash('message', 'You visited /new');
     res.render('new', { title: 'New'});
 });
 
