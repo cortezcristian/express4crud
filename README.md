@@ -607,7 +607,7 @@ extends layout
 
 If we go ahead and create a new person, when you get redirected back to `/list` you'll be able to see the flash message:
 
-![List View Edited](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-edited.png)
+![Flash Message](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/flash-message.png)
 
 
 ## Final 
