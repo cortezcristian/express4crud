@@ -64,7 +64,7 @@ connecting to: test
 ```
  
 
-## Adding Models
+## Modelos
 
 Instalando mongoose
 ```bash
