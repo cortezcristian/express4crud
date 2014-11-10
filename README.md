@@ -495,8 +495,38 @@ At this point the Edit page should look like this:
 
 ![Edit View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/edit-view.png)
 
-We need to create the POST url to actually modify and persist person data.
+We need to create the POST url to actually modify and persist person data inside `./routes/main.js`. Just add this lines:
 
+```javascript
+app.post('/p/edit/:id', function(req, res){
+    Persons.findOne({ _id: req.params.id }, function(err, doc){
+        if(!err){
+            doc.name = req.body.name; 
+            doc.age = req.body.age;
+            doc.save(function(err, doc){
+                if(!err){
+                    res.redirect('/list');
+                } else {
+                    res.end(err);    
+                }    
+            }); 
+        } else {
+            res.end(err);    
+        }    
+    });
+});
+
+```
+
+Let's edit our existing document to increment the age from 27 to 28:
+
+![Edit Age](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/view-edit-age.png)
+
+If everything works fine you'll be redirected to `/list`:
+
+![List View Edited](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-edited.png)
+
+Notice our record says now 28 instead of 27.
 
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
