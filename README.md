@@ -226,6 +226,8 @@ Notice `Query#find([criteria], [callback])` is a built-in feature from [Mongoose
 Restart the server and go to [http://localhost:3000/list](http://localhost:3000/list) again:
 ![List JSON example](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-json.png)
 
+## Creating a view
+
 Let's change all that a little bit to display a page with an HTMl table instead of a plain JSON response. First create a new template called `views/list.jade` based on an existing one.
 ```bash
 $ cp views/index.jade views/list.jade
@@ -244,6 +246,7 @@ app.get('/list', function(req, res){
 });
 ```
 If we restart the server again, we should be able to see:
+
 ![List View](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view.png)
 
 Notice we are passing to the view and object with the ist of `persons`.
