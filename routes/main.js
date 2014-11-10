@@ -3,6 +3,6 @@ var Persons = require('../models/persons.js');
 
 app.get('/list', function(req, res){
     Persons.find({}, function(err, docs){
-        res.json(docs);
+        res.render('list', { title: 'List', persons: docs});
     });
 });
