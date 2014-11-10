@@ -279,8 +279,11 @@ block content
 
 ![List View Table](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-table.png)
 
-Notice we already put in place some links to redirect to create, edit and delete sections. Let's move forward with the person creation:
+Notice we already put in place some links to redirect to create, edit and delete sections. 
 
+## Inserting a record
+
+Let's move forward with the person creation:
 
 ```bash
 $ cp views/index.jade views/new.jade
@@ -382,3 +385,6 @@ GET /css/style.css 200 20.991 ms - 111
 If everything works fine you'll be redirected to `/list`:
 
 ![List View New](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-new.png)
+
+## Delete a Record
+
