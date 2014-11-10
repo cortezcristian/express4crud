@@ -567,14 +567,48 @@ app.use(bodyParser.urlencoded({
  }));
  app.use(cookieParser());
  app.use(express.static(path.join(__dirname, 'public')));
-+app.use(session({secret: 'supersecret'}));
++app.use(session({secret: 'supersecret', saveUninitialized: true, resave: true}));
 +app.use(flash());
  
  app.use('/', routes);
  app.use('/users', users);
 ```
 
-To probe our flash message system is working we can do the following:
+To probe our flash message system is working we can do the following. Once the user visit `/p/new` url and get redirect to `/list` we are going to display a message. In our routes file `./routes/main.js`:
+
+```javascript
+ app.get('/list', function(req, res){
++    var msg = req.flash('message'); // Read the flash message
+     Persons.find({}, function(err, docs){
+-        res.render('list', { title: 'List', persons: docs});
++        res.render('list', { title: 'List', persons: docs, flashmsg: msg}); // Pass Flash Message to the view
+     });
+ });
+ 
+ app.get('/p/new', function(req, res){
++    req.flash('message', 'You visited /new'); // Save the flash message
+     res.render('new', { title: 'New'});
+ });
+```
+
+We also need to make some adjustment to display the saved flash message inside `views/list.jade`:
+
+```jade
+extends layout
+ 
+ block content
+   h1= title
+-  //p=JSON.stringify(persons)
++  p=JSON.stringify(flashmsg)
+   p
+     a(href="/p/new") New
+   table
+```
+
+If we go ahead and create a new person, when you get redirected back to `/list` you'll be able to see the flash message:
+
+![List View Edited](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-edited.png)
+
 
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
