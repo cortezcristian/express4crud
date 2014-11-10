@@ -528,5 +528,87 @@ If everything works fine you'll be redirected to `/list`:
 
 Notice our record says now 28 instead of 27.
 
+## Flash Messages
+
+Let's imagine that in a more complex scenario you need to implement error messages between the request. The case could be something like:
+
+1. The user edits the form (GET request /p/edit/:id)
+2. The user submits new data (POST request /p/edit/:id), and submits something that is not a Number into the age field.
+3. So instead of redirecting to `/list`. We run some backend validation and show an error message indicating the problem. (GET request /p/edit/:id)
+
+In order to resolve this problem we will need to manage session data ([express-session](https://www.npmjs.org/package/express-session)) and be able to save and fetch thos messages ([connect-flash](https://www.npmjs.org/package/connect-flash)). Let's install those packages by doing:
+
+```bash
+npm install --save express-session connect-flash
+```
+
+After that we'll need to make some adjustments to our `app.js`.
+
+Let's declare our new dependecies at the very top:
+
+```javascript
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
++var session = require('express-session')
++var flash = require('connect-flash');
+
+var routes = require('./routes/index');
+
+```
+
+And then call them around line 26, right after cookie parser usage declaration:
+
+```javascript
+app.use(bodyParser.urlencoded({
+ }));
+ app.use(cookieParser());
+ app.use(express.static(path.join(__dirname, 'public')));
++app.use(session({secret: 'supersecret', saveUninitialized: true, resave: true}));
++app.use(flash());
+ 
+ app.use('/', routes);
+ app.use('/users', users);
+```
+
+To probe our flash message system is working we can do the following. Once the user visit `/p/new` url and get redirect to `/list` we are going to display a message. In our routes file `./routes/main.js`:
+
+```javascript
+ app.get('/list', function(req, res){
++    var msg = req.flash('message'); // Read the flash message
+     Persons.find({}, function(err, docs){
+-        res.render('list', { title: 'List', persons: docs});
++        res.render('list', { title: 'List', persons: docs, flashmsg: msg}); // Pass Flash Message to the view
+     });
+ });
+ 
+ app.get('/p/new', function(req, res){
++    req.flash('message', 'You visited /new'); // Save the flash message
+     res.render('new', { title: 'New'});
+ });
+```
+
+We also need to make some adjustment to display the saved flash message inside `views/list.jade`:
+
+```jade
+extends layout
+ 
+ block content
+   h1= title
+-  //p=JSON.stringify(persons)
++  p=JSON.stringify(flashmsg)
+   p
+     a(href="/p/new") New
+   table
+```
+
+If we go ahead and create a new person, when you get redirected back to `/list` you'll be able to see the flash message:
+
+![List View Edited](https://raw.githubusercontent.com/cortezcristian/express4crud/master/pics/list-view-edited.png)
+
+
 ## Final 
 If you want to see the complete demo, you can go ahead and clone this repo.
