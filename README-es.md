@@ -612,3 +612,6 @@ Ahora si creamos una persona nueva, cuando seamos redirigidos a `/list` podremos
 
 ## Final 
 Para acceder al fuente completo de esta demo, podes clonarte el repo.
+```bash
+$ git clone git@github.com:cortezcristian/express4crud.git
+```
