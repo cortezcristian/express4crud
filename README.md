@@ -615,3 +615,7 @@ If you want to see the complete demo, you can go ahead and clone this repo.
 ```bash
 $ git clone git@github.com:cortezcristian/express4crud.git
 ```
+
+## Moving Forward
+
+During this tutorial we've been generating different routes with crud functionallity. It'll be good to add an authentication layer, to prevent unauthorized visitors access our CRUD functionallity. That'll be our next tutorial [Express 4.x and Passport Auth Layer](https://github.com/cortezcristian/express4passport-local).
