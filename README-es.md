@@ -105,7 +105,7 @@ module.exports = personModel;
 
 ```
 
-Como podras ver es un modelo bastante siemplre, podemos crear un archivo test para comprobar como funciona:
+Como podrás ver es un modelo bastante simple. Podemos crear un archivo test para comprobar como funciona:
  
  ```bash
 $ mkdir test
